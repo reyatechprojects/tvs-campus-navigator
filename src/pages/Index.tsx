@@ -3,29 +3,36 @@ import { MapPin, Compass, Footprints } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
+import campusHero from "@/assets/campus-hero.png";
 
 const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-secondary to-school-warm">
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Hero background image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${campusHero})` }}
+        />
+        <div className="absolute inset-0 bg-foreground/50" />
         {/* Floating icons */}
         <motion.div
-          className="absolute top-20 left-[15%] text-primary/30"
+          className="absolute top-20 left-[15%] text-primary-foreground/40"
           animate={{ y: [-10, 10, -10] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         >
           <MapPin className="h-12 w-12 md:h-16 md:w-16" />
         </motion.div>
         <motion.div
-          className="absolute top-32 right-[12%] text-school-gold/40"
+          className="absolute top-32 right-[12%] text-school-gold/60"
           animate={{ y: [10, -10, 10] }}
           transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
         >
           <Compass className="h-10 w-10 md:h-14 md:w-14" />
         </motion.div>
         <motion.div
-          className="absolute bottom-32 left-[20%] text-school-green/30"
+          className="absolute bottom-32 left-[20%] text-school-green/50"
           animate={{ y: [-8, 12, -8] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
@@ -39,21 +46,21 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-1.5 text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 bg-primary-foreground/20 text-primary-foreground rounded-full px-4 py-1.5 text-sm font-medium mb-6 backdrop-blur-sm">
               <MapPin className="h-4 w-4" />
               Interactive Campus Guide
             </div>
 
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 leading-tight drop-shadow-lg">
               Welcome to<br />
-              <span className="text-primary">The TVS School</span>
+              <span className="text-school-gold">The TVS School</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4">
+            <p className="text-lg md:text-xl text-primary-foreground/90 max-w-2xl mx-auto mb-4">
               We're delighted to guide you through our campus.
             </p>
 
-            <p className="text-base text-muted-foreground max-w-xl mx-auto mb-10">
+            <p className="text-base text-primary-foreground/80 max-w-xl mx-auto mb-10">
               This smart campus guide helps parents and visitors easily find classrooms, labs, offices, and facilities inside The TVS School.
             </p>
 
