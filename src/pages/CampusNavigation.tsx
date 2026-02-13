@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import Layout from "@/components/Layout";
 import { locations, type Location } from "@/data/campusDirections";
 
@@ -33,6 +34,7 @@ const CampusNavigation = () => {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Location | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
 
   const filtered = useMemo(() => {
     if (!query.trim()) return [];
@@ -50,7 +52,12 @@ const CampusNavigation = () => {
     setSelected(loc);
     setQuery(loc.name);
     setShowSuggestions(false);
+    setActiveStep(0);
   };
+
+  const progressPercent = selected
+    ? ((activeStep + 1) / selected.steps.length) * 100
+    : 0;
 
   return (
     <Layout>
@@ -158,6 +165,15 @@ const CampusNavigation = () => {
                   )}
                 </div>
 
+                {/* Progress bar */}
+                <div className="mb-6">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
+                    <span>Step {activeStep + 1} of {selected.steps.length}</span>
+                    <span>{Math.round(progressPercent)}% complete</span>
+                  </div>
+                  <Progress value={progressPercent} className="h-2" />
+                </div>
+
                 {/* Starting point */}
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-10 w-10 rounded-full bg-school-green flex items-center justify-center text-primary-foreground">
@@ -177,20 +193,21 @@ const CampusNavigation = () => {
                       initial={{ opacity: 0, x: -15 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: i * 0.1 }}
-                      className="flex gap-4"
+                      className={`flex gap-4 cursor-pointer rounded-lg px-2 transition-colors ${i === activeStep ? "bg-secondary/60" : "hover:bg-secondary/30"}`}
+                      onClick={() => setActiveStep(i)}
                     >
                       {/* Timeline */}
                       <div className="flex flex-col items-center">
-                        <div className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 ${directionColor(step.direction)}`}>
+                        <div className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${i <= activeStep ? directionColor(step.direction) : "bg-muted text-muted-foreground"}`}>
                           {directionIcon(step.direction)}
                         </div>
                         {i < selected.steps.length - 1 && (
-                          <div className="w-0.5 flex-1 bg-border my-1" />
+                          <div className={`w-0.5 flex-1 my-1 transition-colors ${i < activeStep ? "bg-primary" : "bg-border"}`} />
                         )}
                       </div>
                       {/* Content */}
                       <div className="pb-6 pt-2">
-                        <p className="text-foreground font-medium">{step.instruction}</p>
+                        <p className={`font-medium transition-colors ${i <= activeStep ? "text-foreground" : "text-muted-foreground"}`}>{step.instruction}</p>
                         {step.landmark && (
                           <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
                             <Landmark className="h-3 w-3" /> Look for: {step.landmark}
@@ -199,6 +216,24 @@ const CampusNavigation = () => {
                       </div>
                     </motion.div>
                   ))}
+                </div>
+
+                {/* Step navigation buttons */}
+                <div className="flex justify-between mt-4">
+                  <button
+                    onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
+                    disabled={activeStep === 0}
+                    className="px-4 py-2 text-sm rounded-lg border bg-card hover:bg-secondary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    ← Previous
+                  </button>
+                  <button
+                    onClick={() => setActiveStep(Math.min(selected.steps.length - 1, activeStep + 1))}
+                    disabled={activeStep === selected.steps.length - 1}
+                    className="px-4 py-2 text-sm rounded-lg border bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    Next →
+                  </button>
                 </div>
               </motion.div>
             ) : (

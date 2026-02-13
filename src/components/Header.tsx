@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { MapPin, Home, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import DarkModeToggle from "./DarkModeToggle";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -51,7 +52,7 @@ const Header = () => {
           )}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <nav className="hidden md:flex items-center gap-1">
             <Button variant={location.pathname === "/" ? "secondary" : "ghost"} size="sm" asChild>
               <Link to="/">Home</Link>
@@ -63,6 +64,7 @@ const Header = () => {
               <Link to="/navigate">Navigate</Link>
             </Button>
           </nav>
+          <DarkModeToggle />
           {location.pathname !== "/" && (
             <Button variant="outline" size="sm" asChild>
               <Link to="/">

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { MapPin, Compass, Footprints } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,14 +7,25 @@ import Layout from "@/components/Layout";
 import campusHero from "@/assets/campus-hero.png";
 
 const Index = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <Layout>
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Hero background image */}
+        {/* Hero background image with parallax */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${campusHero})` }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
+          style={{
+            backgroundImage: `url(${campusHero})`,
+            transform: `translateY(${scrollY * 0.35}px) scale(1.1)`,
+          }}
         />
         <div className="absolute inset-0 bg-foreground/50" />
         {/* Floating icons */}
