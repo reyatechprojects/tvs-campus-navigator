@@ -1,4 +1,4 @@
-import { MapPin, Phone, AlertTriangle } from "lucide-react";
+import { MapPin, Phone, Mail, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Footer = () => {
@@ -19,7 +19,13 @@ const Footer = () => {
           <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Phone className="h-4 w-4" />
-              <span>Contact: +91-XXXX-XXXXXX</span>
+              <span>+91 90478 88111 / 0452 2694040, 2694330</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail className="h-4 w-4" />
+              <a href="mailto:thetvsschool@tvslvs.com" className="hover:text-primary transition-colors">
+                thetvsschool@tvslvs.com
+              </a>
             </div>
             <p>Madurai, Tamil Nadu, India</p>
           </div>
