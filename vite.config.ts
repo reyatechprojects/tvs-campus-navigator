@@ -1,16 +1,11 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
+export default defineConfig(({ mode }) => ({
+  base: "/tvs-campus-navigator/",
 
-export default defineConfig({
-base: "/tvs-campus-navigator/",
-
-  plugins: [react()],
+  plugins: [react()], // remove lovable-tagger if still there
 
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-});
-
+}));
